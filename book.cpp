@@ -1,16 +1,87 @@
 #include <iostream>
 #include <map>
+#include <fstream>
 #include <string>
 #include <iterator>
 
 #include "book.hpp"
 
+int WriteFile(std::string fname, std::map<std::string, std::string> *m) {
+        int count = 0;
+        if (m->empty())
+                return 0;
+
+        FILE *fp = fopen(fname.c_str(), "w");
+        if (!fp)
+                return -errno;
+
+        for(std::map<std::string, std::string>::iterator it = m->begin(); it != m->end(); it++) {
+                fprintf(fp, "%s=%s\n", it->first.c_str(), it->second.c_str());
+                count++;
+        }
+
+        fclose(fp);
+        return count;
+}
+
+int ReadFile(std::string fname, std::map<std::string, std::string> *m) {
+        int count = 0;
+
+        FILE *fp = fopen(fname.c_str(), "r");
+        if (!fp)
+                return -errno;
+        m->clear();
+
+        char *buf = 0;
+        size_t buflen = 0;
+
+        while(getline(&buf, &buflen, fp) > 0)
+        {                                                     // File parsing
+                char *nl = strchr(buf, '\n');
+                if (nl == NULL)
+                        continue;
+                *nl = 0;
+
+                char *sep = strchr(buf, '=');
+                if (sep == NULL)
+                        continue;
+                *sep = 0;
+                sep++;
+
+                std::string s1 = buf;
+                std::string s2 = sep;
+
+                (*m)[s1] = s2;
+
+                count++;
+        }
+
+        if (buf)
+                free(buf);
+
+        fclose(fp);
+        return count;
+}
 
 book::book()
 {
+
+    std::cout << "enter the path to handbook" << std::endl;
+    std::cin >> path;
+
+    std::ifstream file(path);
+    if (!file)
+    {
+       std::cout << "file not exist" << std::endl;
+    }
+    else
+    {
+       ReadFile(path, &book_data);
+    }
 }
 book::~book()
 {
+    WriteFile(path, &book_data);
 
 }
 void book::list_entries()
@@ -58,19 +129,4 @@ void book::delete_entry()
     }
     if (confirm == 'y')
         book_data.erase(it);
-}
-void book::choose_action(int choice)
-{
-  switch (choice)
-  {
-  case 1 :
-    book::list_entries();
-    break;
-  case 2 :
-    book::add_entry();
-    break;
-  case 3 :
-    book::delete_entry();
-    break;
-  }
 }
