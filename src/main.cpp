@@ -2,11 +2,12 @@
 #include "book.hpp"
 
 int main() {
+  std::cout << "Welcome to the phone book" << std::endl;
   book tel_book;
   bool exit = false;
   while(true)
   {
-  std::cout << "welcome to the phone book\n Choose your action: "
+  std::cout << "Choose your action: "
                "\n 1 - list all entries; "
                "2 - add new entry;"
                " 3 - delete entry;"

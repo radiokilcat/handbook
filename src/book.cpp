@@ -65,14 +65,16 @@ int ReadFile(std::string fname, std::map<std::string, std::string> *m) {
 
 book::book()
 {
+    //std::cout << "enter the path to handbook" << std::endl;
 
-    std::cout << "enter the path to handbook" << std::endl;
     std::cin >> path;
 
-    std::ifstream file(path);
-    if (!file)
+    std::fstream file_settings;
+    file_settings.open("data.txt", std::ios_base::trunc | std::ios_base::in | std::ios_base::out);
+
+    if (!file_settings.is_open())
     {
-       std::cout << "file not exist" << std::endl;
+       std::cout << "cannot open file" << std::endl;
     }
     else
     {
