@@ -9,8 +9,8 @@ int main() {
   {
   std::cout << "Choose your action: "
                "\n 1 - list all entries; "
-               "2 - add new entry;"
-               " 3 - delete entry;"
+               "2 - add new entry; "
+               "3 - delete entry; "
                "4 - quit;" << std::endl;
   int action;
   std::cin >> action;

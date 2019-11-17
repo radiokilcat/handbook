@@ -1,9 +1,9 @@
-#ifndef BOOK_H
-#define BOOK_H
+#pragma once
 
-#endif // BOOK_H
 #include <string>
 #include <map>
+
+#include <boost/filesystem.hpp>
 
 class book
 {
@@ -17,6 +17,8 @@ public:
 
 private:
 
-    std::string path;
-    std::map<std::string, std::string> book_data;
+      boost::filesystem::path _data;
+
+        std::string path;
+        std::map<std::string, std::string> book_data;
 };
