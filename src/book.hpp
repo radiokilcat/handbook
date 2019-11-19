@@ -19,6 +19,6 @@ private:
 
       boost::filesystem::path _data;
 
-        std::string path;
-        std::map<std::string, std::string> book_data;
+      std::string path;
+      std::map<std::string, std::string> book_data;
 };

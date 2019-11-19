@@ -7,10 +7,10 @@ int main() {
   bool exit = false;
   while(true)
   {
-  std::cout << "Choose your action: "
-               "\n 1 - list all entries; "
-               "2 - add new entry; "
-               "3 - delete entry; "
+  std::cout << "Choose your action:\n"
+               "1 - list all entries;\n"
+               "2 - add new entry;\n"
+               "3 - delete entry;\n"
                "4 - quit;" << std::endl;
   int action;
   std::cin >> action;
