@@ -11,6 +11,7 @@ namespace fs = boost::filesystem;
 
 int book::write_to_file(fs::path file, std::map<std::string, person> m)
 {
+//    TODO: re-write to fstream
         int count = 0;
         if (m.empty())
                 return 0;
@@ -23,7 +24,7 @@ int book::write_to_file(fs::path file, std::map<std::string, person> m)
         }
 
         for(auto it = m.begin(); it != m.end(); it++) {
-                fprintf(fp, "%s=%s:%s\n", it->first.c_str(), it->second.phone.c_str(), it->second.phone.c_str());
+                fprintf(fp, "%s %s %s\n", it->first.c_str(), it->second.phone.c_str(), it->second.adress.c_str());
                 count++;
         }
 
@@ -31,50 +32,23 @@ int book::write_to_file(fs::path file, std::map<std::string, person> m)
         return count;
 }
 
-int ReadFile(std::string fname, std::map<std::string, std::string> *m) {
-        int count = 0;
-
-        FILE *fp = fopen(fname.c_str(), "r");
-        if (!fp)
-                return -errno;
-        m->clear();
-
-        char *buf = 0;
-        size_t buflen = 0;
-
-        while(getline(&buf, &buflen, fp) > 0)
-        {                                                     // File parsing
-                char *nl = strchr(buf, '\n');
-                if (nl == NULL)
-                        continue;
-                *nl = 0;
-
-                char *sep = strchr(buf, '=');
-                if (sep == NULL)
-                        continue;
-                *sep = 0;
-                sep++;
-
-                std::string s1 = buf;
-                std::string s2 = sep;
-
-                (*m)[s1] = s2;
-
-                count++;
-        }
-
-        if (buf)
-                free(buf);
-
-        fclose(fp);
-        return count;
+int book::read_from_file(fs::path fname)
+{
+    person current;
+    std::string name;
+    fs::ifstream file(fname);
+    while(file >> name >> current.phone >> current.adress)
+        book_data_[name] = current;
+    file.close();
+    return 0;
 }
+
 
 book::book()
 {
-    //std::cout << "enter the path to handbook" << std::endl;
+    std::cout << "enter the path to handbook" << std::endl;
 
-    std::cin >> path;
+    std::cin >> path_;
 
     std::fstream file_settings;
     file_settings.open("data.txt", std::ios_base::trunc | std::ios_base::in | std::ios_base::out);
