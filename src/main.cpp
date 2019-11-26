@@ -11,7 +11,7 @@ int main() {
                "1 - list all entries;\n"
                "2 - add new entry;\n"
                "3 - delete entry;\n"
-               "4 - quit;" << std::endl;
+               "4 - quit;\n";
   int action;
   std::cin >> action;
   switch (action)

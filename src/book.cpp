@@ -6,17 +6,24 @@
 
 #include "book.hpp"
 
-int WriteFile(std::string fname, std::map<std::string, std::string> *m) {
+namespace fs = boost::filesystem;
+
+
+int book::write_to_file(fs::path file, std::map<std::string, person> m)
+{
         int count = 0;
-        if (m->empty())
+        if (m.empty())
                 return 0;
 
-        FILE *fp = fopen(fname.c_str(), "w");
-        if (!fp)
-                return -errno;
+        FILE *fp = fopen(file.c_str(), "w");
+        if (fp == nullptr)
+        {
+            std::fprintf(stderr, "file opening error %d, %s\n", errno, strerror(errno));
+            std::abort();
+        }
 
-        for(std::map<std::string, std::string>::iterator it = m->begin(); it != m->end(); it++) {
-                fprintf(fp, "%s=%s\n", it->first.c_str(), it->second.c_str());
+        for(auto it = m.begin(); it != m.end(); it++) {
+                fprintf(fp, "%s=%s:%s\n", it->first.c_str(), it->second.phone.c_str(), it->second.phone.c_str());
                 count++;
         }
 

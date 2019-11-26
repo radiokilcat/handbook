@@ -5,20 +5,28 @@
 
 #include <boost/filesystem.hpp>
 
+namespace fs = boost::filesystem;
+
 class book
 {
 public:
       book();
       ~book();
-      void choose_action(int choice);
+
+      struct person  {
+          std::string phone;
+          std::string adress;
+      };
+
       void list_entries();
       void add_entry();
-      void delete_entry();
+      int write_to_file(fs::path, std::map<std::string, person>);
+//      void delete_entry();
 
 private:
 
-      boost::filesystem::path _data;
 
-      std::string path;
-      std::map<std::string, std::string> book_data;
+      person info;
+      boost::filesystem::path path_;
+      std::map<std::string, person> book_data_;
 };
