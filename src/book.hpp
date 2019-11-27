@@ -22,7 +22,7 @@ public:
       void add_entry();
       int write_to_file(fs::path, std::map<std::string, person>);
       int read_from_file(fs::path);
-//      void delete_entry();
+      void delete_entry();
 
 private:
 

@@ -59,57 +59,56 @@ book::book()
     }
     else
     {
-       ReadFile(path, &book_data);
+        read_from_file(path_);
     }
-}
-book::~book()
-{
-    WriteFile(path, &book_data);
 
 }
+
+book::~book()
+{
+    write_to_file(book::path_, book_data_);
+}
+
 void book::list_entries()
 {
-    std::map<std::string, std::string>::iterator it = book_data.begin();
-    while(it != book_data.end())
+    auto it = book_data_.begin();
+    while(it != book_data_.end())
     {
-    std::cout<< it->first<<" :: "<<it->second<<std::endl;
+    std::cout << "\n" << "name: " << it->first << "\n"
+              "phone: " << it->second.phone << "\n"
+              "address: " << it->second.adress << "\n";
     it++;
     }
 }
+
 void book::add_entry()
 {
+    person person1;
     std::cout << "enter the name" << std::endl;
     std::string name;
     std::cin >> name;
     std::cout << "enter the phone" << std::endl;
-    std::string phone;
-    std::cin >> phone;
+    std::cin >> person1.phone;
     std::cout << "enter the address" << std::endl;
-    std::string address;
-    std::cin >> address;
+    std::cin >> person1.adress;
 
-    book_data.insert(std::make_pair(name, phone));
-    std::map<std::string, std::string>::iterator it = book_data.begin();
-    while(it != book_data.end())
-    {
-    std::cout<< it->first<<" :: "<<it->second<<std::endl;
-    it++;
-    }
+    book_data_.insert(std::make_pair(name, person1));
 }
+
 void book::delete_entry()
 {
     std::cout << "enter the entry name you want to delete: " << std::endl;
     std::string name;
     std::cin >> name;
-    std::map<std::string, std::string>::iterator it = book_data.find(name);
+    auto it = book_data_.find(name);
     char confirm('n');
-    if (book_data.find(name) != book_data.end())
+    if (book_data_.find(name) != book_data_.end())
     {
         std::cout << "Are you sure you want to delete this note?" << std::endl;
-        std::cout << it->first << " :: " << it->second << std::endl;
+        std::cout << it->first << " :: " << it->second.phone << " :: " << it->second.adress << std::endl;
         std::cout << "y/n?" << std::endl;
         std::cin >> confirm;
     }
     if (confirm == 'y')
-        book_data.erase(it);
+        book_data_.erase(it);
 }
