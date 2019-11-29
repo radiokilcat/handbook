@@ -24,6 +24,8 @@ public:
       int read_from_file(fs::path);
       void delete_entry();
 
+      std::string find_entry(std::string, std::map<std::string, person>);
+
 private:
 
 

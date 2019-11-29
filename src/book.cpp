@@ -112,3 +112,10 @@ void book::delete_entry()
     if (confirm == 'y')
         book_data_.erase(it);
 }
+
+std::map<std::string, book::person>::iterator book::find_entry(std::string search_string, std::map<std::string, book::person> data)
+{
+    auto it = data.find(search_string);
+    if (it != data.end())
+        return it;
+}
